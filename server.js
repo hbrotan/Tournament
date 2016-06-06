@@ -70,7 +70,17 @@ router.get('/tournament/:tournament/league', function (req, res) {
 router.route('/tournament/:tournament/league/:league/result')
     .get( function (req, res) {
         sql.execute({  
-            query: 'SELECT [CalculatedAt],[Result] FROM [dbo].[Result] WHERE CalculatedAt = (SELECT MAX(CalculatedAt) FROM [dbo].[Result] WHERE Tournament = @tournament AND League = @league)'
+            query: 'SELECT [CalculatedAt],[Result] FROM [dbo].[Result] WHERE CalculatedAt = (SELECT MAX(CalculatedAt) FROM [dbo].[Result] WHERE Tournament = @tournament AND League = @league)',
+            params: {
+				tournament: {
+					type: sql.VARCHAR,
+					val: req.params.tournament,
+				},
+                league: {
+					type: sql.VARCHAR,
+					val: req.params.league,
+				}
+			}
         }).then( function( results ) {
             res.send(results);
         }).catch(function(error){
@@ -92,11 +102,11 @@ router.route('/tournament/:tournament/league/:league/result')
                 },
                 tournament: {
                     type: sql.VARCHAR,
-                    val: tournament,
+                    val: req.params.league,
                 },
                 league: {
                     type: sql.VARCHAR,
-                    val: league,
+                    val: req.params.league,
                 },
                 calculatedAt: {
                     type: sql.DATETIME,
