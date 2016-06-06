@@ -2,7 +2,7 @@
     'use strict';
 	
     angular
-        .module('app', [])
+        .module('app', ['ngRoute'])
         .controller('controller', controller)
         .factory('dataservice', dataservice);
                 
@@ -11,10 +11,10 @@
                                            
         function controller($routeParams, dataservice) {
             var vm = this;
-            var league = $routeParams.param1;
+            vm.league = $routeParams.param1;
            
-            if(league){
-                vm.results = dataservice.getResultForLeague(league);
+            if(vm.league){
+                vm.results = dataservice.getResultForLeague(vm.league);
             }else{
                 vm.leagues = dataservice.getLeagues();
             }                        
