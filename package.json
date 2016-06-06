@@ -1,0 +1,11 @@
+{
+  "name": "tournament",
+  "version": "1.0.0",
+  "dependencies": {
+    "body-parser": "^1.0.2",
+    "express": "^4.0.0",
+    "lodash": "^4.13.1",
+    "node-uuid": "^1.4.7",
+    "seriate": "^0.6.1"
+  }
+}
