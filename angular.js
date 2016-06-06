@@ -13,10 +13,16 @@
             var vm = this;
             vm.league = $routeParams.param1;
            
-            if(vm.league){
-                vm.results = dataservice.getResultForLeague(vm.league);
-            }else{
-                vm.leagues = dataservice.getLeagues();
+            if (vm.league){
+                dataservice.getResultForLeague(vm.league)
+                    .then(function(data){
+                            vm.results = data;
+                        });;
+            } else{
+                dataservice.getLeagues()
+                    .then(function(data){
+                        vm.leagues = data;
+                    });
             }                        
         }
         
