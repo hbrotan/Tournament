@@ -6,23 +6,38 @@
         .controller('controller', controller)
         .factory('dataservice', dataservice);
                 
-        controller.$inject = ['dataservice'];
+        controller.$inject = ['$routeParams', 'dataservice'];
         dataservice.$inject = ['$q','$http'];    
                                            
-        function controller(dataservice) {
+        function controller($routeParams, dataservice) {
             var vm = this;
-            
-            vm.results = dataservice.getData();            
+            var league = $routeParams.param1;
+           
+            if(league){
+                vm.results = dataservice.getResultForLeague(league);
+            }else{
+                vm.leagues = dataservice.getLeagues();
+            }                        
         }
         
         function dataservice($q, $http){
             return {
-		        getData : _.memoize(getData)
+                getLeagues : _.once(getLeagues),
+		        getResultForLeague : _.memoize(getResultForLeague)
             }
             
-            function getData(id){     
+            function getLeagues(league){     
                 return $q(function(resolve, reject) {                        
-                    $http.get('Resultat_16_05_2016.json')
+                    $http.get('http://tournament.azurewebsites.net/api/tournament/EM2016/league')
+                        .then(function(response){                        
+                            resolve(response.data);
+                        });
+                });
+            } 
+            
+            function getResultForLeague(league){     
+                return $q(function(resolve, reject) {                        
+                    $http.get('http://tournament.azurewebsites.net/api/tournament/EM2016/league/' + league +'/result')
                         .then(function(response){                        
                             resolve(response.data);
                         });

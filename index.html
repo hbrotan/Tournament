@@ -19,7 +19,15 @@
                         <h2>Tippekonkurranse</h2>    
                         <br>
                         <br>
-                        <table class="table table-striped table-hover ">
+                        <div ng-if="vm.leagues.length">
+                            <ul>
+                                <li ng-repeat="league in vm.leagues">                         
+                                    <a ng-href="http://tournament.azurewebsites.net/{{league}}">{{league}}</a>                                
+                                </li
+                            </ul>>
+                        </div>
+                        
+                        <table ng-if="vm.results.length" class="table table-striped table-hover ">
                             <thead>
                                 <tr>
                                     <th style="text-align: center;">Plass</th>
