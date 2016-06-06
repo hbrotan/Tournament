@@ -132,8 +132,13 @@ router.route('/tournament/:tournament/league/:league/result')
 	});
 	
 // REGISTER THE ROUTES -------------------------------
-app.use('/api', router);//Api
-app.use('/', express.static(__dirname)); //Serve web
+//Api
+app.use('/api', router);
+
+//Serve web
+app.get('/',function(req,res){
+  res.sendFile('index.html');
+});
 
 // START THE SERVER
 // =============================================================================
