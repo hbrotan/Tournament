@@ -89,7 +89,7 @@ router.route('/tournament/:tournament/league/:league/result')
         });	
     })
 	.post(function(req, res){
-		var result = req.body;
+		var result = req.body.content;
 			
         // Add new result			
         var userId = uuid.v1();							
@@ -118,7 +118,8 @@ router.route('/tournament/:tournament/league/:league/result')
                 },
             }
         }).then( function() {
-            res.json({message: 'Results added'});
+            res.send(result);
+            //res.json({message: 'Results added'});
         }).catch(function(error){
             res.json(error);
             throw error;
