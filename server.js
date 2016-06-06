@@ -58,7 +58,13 @@ router.get('/', function(req, res) {
 
 router.get('/tournament/:tournament/league', function (req, res) {
 	sql.execute({  
-        query: 'SELECT [League] FROM [dbo].[Result] WHERE Tournament = @tournament'
+        query: 'SELECT [League] FROM [dbo].[Result] WHERE Tournament = @tournament',
+        params: {
+        tournament: {
+            type: sql.VARCHAR,
+            val: req.params.tournament,
+            }
+        }
     }).then( function( results ) {
         res.send(results);
     }).catch(function(error){
