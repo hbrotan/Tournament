@@ -39,16 +39,18 @@ app.all('*', function(req, res, next) {
     }
     next();
 });
-app.use(function (req, res, next) {
-	res.header('Content-Type', 'application/json; charset=utf-8');
-	next();
-});
+
 
 var port = process.env.PORT || 3000;        // set the port
 
 // ROUTES FOR THE API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
+
+router.use(function (req, res, next) {
+	res.header('Content-Type', 'application/json; charset=utf-8');
+	next();
+});
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
@@ -136,11 +138,7 @@ router.route('/tournament/:tournament/league/:league/result')
 app.use('/api', router);
 
 //Serve web
-app.use(express.static(__dirname));
-app.get('/',function(req,res){
-  res.sendFile('index.html');
-});
-
+app.use('/', express.static(__dirname));
 // START THE SERVER
 // =============================================================================
 app.listen(port);
