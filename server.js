@@ -89,7 +89,7 @@ router.route('/tournament/:tournament/league/:league/result')
         });	
     })
 	.post(function(req, res){
-		var result = req.body.content;
+		var result = json(req.body);
 			
         // Add new result			
         var userId = uuid.v1();							
@@ -102,7 +102,7 @@ router.route('/tournament/:tournament/league/:league/result')
                 },
                 tournament: {
                     type: sql.VARCHAR,
-                    val: req.params.league,
+                    val: req.params.tournament,
                 },
                 league: {
                     type: sql.VARCHAR,
