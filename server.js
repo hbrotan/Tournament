@@ -44,8 +44,6 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.use('/', express.static(__dirname));
-
 var port = process.env.PORT || 3000;        // set the port
 
 // ROUTES FOR THE API
@@ -134,8 +132,8 @@ router.route('/tournament/:tournament/league/:league/result')
 	});
 	
 // REGISTER THE ROUTES -------------------------------
-app.use('/api', router);
-
+app.use('/api', router);//Api
+app.use('/', express.static(__dirname)); //Serve web
 
 // START THE SERVER
 // =============================================================================
