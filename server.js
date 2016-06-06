@@ -136,6 +136,7 @@ router.route('/tournament/:tournament/league/:league/result')
 app.use('/api', router);
 
 //Serve web
+app.use(express.static(__dirname));
 app.get('/',function(req,res){
   res.sendFile('index.html');
 });
