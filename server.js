@@ -89,7 +89,7 @@ router.route('/tournament/:tournament/league/:league/result')
         });	
     })
 	.post(function(req, res){
-		var result = json(req.body);
+		var result = JSON.stringify(req.body);
 			
         // Add new result			
         var userId = uuid.v1();							
