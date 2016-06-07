@@ -3,12 +3,17 @@
 	
     angular
         .module('app', ['ngRoute'])
+        .config(appConfig)
         .controller('controller', controller)
         .factory('dataservice', dataservice);
                 
         controller.$inject = ['$location', 'dataservice'];
         dataservice.$inject = ['$q','$http'];    
-                                           
+
+	function appConfig($routeProvider, $locationProvider){
+		$locationProvider.html5Mode(true);	
+	}
+
         function controller($location, dataservice) {
             var vm = this;
             vm.league = $location.search().league;
@@ -17,7 +22,7 @@
                 dataservice.getResultForLeague(vm.league)
                     .then(function(data){
                             vm.results = angular.fromJson(data[0].Result);
-							vm.calculated = data[0].CalculatedAt;
+				vm.calculated = data[0].CalculatedAt;
                         });;
             } else{
                 dataservice.getLeagues()
