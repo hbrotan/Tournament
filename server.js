@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
 
 router.get('/tournament/:tournament/league', function (req, res) {
 	sql.execute({  
-        query: 'SELECT [League] FROM [dbo].[Result] WHERE Tournament = @tournament',
+        query: 'SELECT [League] FROM [dbo].[Result] WHERE Tournament = @tournament ORDER BY League',
         params: {
         tournament: {
             type: sql.VARCHAR,
@@ -122,8 +122,8 @@ router.route('/tournament/:tournament/league/:league/result')
                 },
             }
         }).then( function() {
-            res.send(result);
-            //res.json({message: 'Results added'});
+            //res.send(result);
+            res.json('Resultatet er lastet opp til skyen!');
         }).catch(function(error){
             res.json(error);
             throw error;
