@@ -7,29 +7,43 @@
         .controller('controller', controller)
         .factory('dataservice', dataservice);
                 
-        controller.$inject = ['$location', 'dataservice'];
+        controller.$inject = ['$rootScope', '$location', 'dataservice'];
         dataservice.$inject = ['$q','$http'];    
 
 	function appConfig($routeProvider, $locationProvider){
 		$locationProvider.html5Mode(true);	
 	}
 
-        function controller($location, dataservice) {
+        function controller($rootScope, $location, dataservice) {
             var vm = this;
-            vm.league = $location.path().split('/')[1];
-           
-            if (vm.league){
-                dataservice.getResultForLeague(vm.league)
-                    .then(function(data){
-                            vm.results = angular.fromJson(data[0].Result);
-				vm.calculated = data[0].CalculatedAt;
-                        });;
-            } else{
-                dataservice.getLeagues()
-                    .then(function(data){
-                        vm.leagues = data;
-                    });
-            }                        
+            
+            getDataBasedOnRouteParams();
+            registerEventHandlers();
+            
+            function registerEventHandlers(){
+                $rootScope.$on('$locationChangeSuccess', function () {
+        		getDataBasedOnRouteParams();
+    		});
+            }
+            
+            function getDataBasedOnRouteParams(){
+	            vm.league = $location.path().split('/')[1];
+	           
+	           
+	           
+	            if (vm.league){
+	                dataservice.getResultForLeague(vm.league)
+	                    .then(function(data){
+	                            vm.results = angular.fromJson(data[0].Result);
+					vm.calculated = data[0].CalculatedAt;
+	                        });;
+	            } else{
+	                dataservice.getLeagues()
+	                    .then(function(data){
+	                        vm.leagues = data;
+	                    });
+	            }     
+            }
         }
         
         function dataservice($q, $http){
