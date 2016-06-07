@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
 
 router.get('/tournament/:tournament/league', function (req, res) {
 	sql.execute({  
-        query: 'SELECT [League] FROM [dbo].[Result] WHERE Tournament = @tournament ORDER BY League',
+        query: 'SELECT DISTINCT [League] FROM [dbo].[Result] WHERE Tournament = @tournament ORDER BY League',
         params: {
         tournament: {
             type: sql.VARCHAR,
