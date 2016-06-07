@@ -23,7 +23,7 @@
                         <div ng-if="vm.leagues.length" ng-cloak>
                             <ul>Ligaer:<br>
                                 <li ng-repeat="item in vm.leagues" style="list-style-type:none;">                         
-                                    <a ng-href="http://tournament.azurewebsites.net/{{item.League}}">{{item.League}}</a>                                
+                                    <a ng-href="http://tournament.azurewebsites.net#/?league={{item.League}}">{{item.League}}</a>                                
                                 </li
                             </ul>
                         </div>
@@ -35,9 +35,9 @@
                                 <tr>
                                     <th style="text-align: center;">Plass</th>
                                     <th style="text-align: left;">Trend</th>
-                                    <th>Navn</th>
-                                    <th style="text-align: right;">Poeng</th>
-                                    <th style="text-align: right;">Endring</th>                                
+                                    <th style="text-align: left;">Navn</th>
+                                    <th style="text-align: right;">Poeng sist runde</th>  
+									<th style="text-align: right;">Poeng totalt</th>                                                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,15 +48,16 @@
                                         <span ng-if="result.Trend == 0">-</span>
                                         <span ng-if="result.Trend < 0"><i style="color:red;"class="fa fa-arrow-circle-down"></i> {{result.Trend}}</span>
                                     </td>                                
-                                    <td>{{result.Name}}</td>
-                                    <td style="text-align: right;">{{result.Points}}</td>
+                                    <td style="text-align: left;">{{result.Name}}</td>
                                     <td style="text-align: right;">
                                         <span ng-if="result.PointDifferenceFromYesterday > 0"><strong>+{{result.PointDifferenceFromYesterday}}</strong></span>
                                         <span ng-if="result.PointDifferenceFromYesterday <= 0" style="text-align: right;">{{result.PointDifferenceFromYesterday}}</span>
                                     </td>
+									<td style="text-align: right;">{{result.Points}}</td>
                                 </tr>
                             </tbody>
                         </table>
+						<small ng-if="vm.results.length" ng-cloak>Sist oppdatert: {{vm.calculated | date:'dd.MM'}}</small>
                     </div>
                 </div>
             </div>
