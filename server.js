@@ -47,10 +47,7 @@ var port = process.env.PORT || 3000;        // set the port
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
 
-router.use(function (req, res, next) {
-	res.header('Content-Type', 'application/json; charset=utf-8');
-	next();
-});
+
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
