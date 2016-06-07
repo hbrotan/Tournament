@@ -16,7 +16,7 @@
 
         function controller($location, dataservice) {
             var vm = this;
-            vm.league = $location.search().league;
+            vm.league = $location.path().split('/')[1];
            
             if (vm.league){
                 dataservice.getResultForLeague(vm.league)
