@@ -6,17 +6,18 @@
         .controller('controller', controller)
         .factory('dataservice', dataservice);
                 
-        controller.$inject = ['$routeParams', 'dataservice'];
+        controller.$inject = ['$location', 'dataservice'];
         dataservice.$inject = ['$q','$http'];    
                                            
-        function controller($routeParams, dataservice) {
+        function controller($location, dataservice) {
             var vm = this;
-            vm.league = $routeParams.param1;
+            vm.league = $location.search().league;
            
             if (vm.league){
                 dataservice.getResultForLeague(vm.league)
                     .then(function(data){
-                            vm.results = data;
+                            vm.results = angular.fromJson(data[0].Result);
+							vm.calculated = data[0].CalculatedAt;
                         });;
             } else{
                 dataservice.getLeagues()
