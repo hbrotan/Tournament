@@ -63,10 +63,10 @@
                                             </td>                                
                                             <td style="text-align: left;">{{result.Name}}</td>
                                             <td style="text-align: right;">
-                                                <span ng-if="result.PointDifferenceFromYesterday > 0"><strong>+{{result.PointDifferenceFromYesterday}}</strong></span>
-                                                <span ng-if="result.PointDifferenceFromYesterday <= 0" style="text-align: right;">{{result.PointDifferenceFromYesterday}}</span>
+                                                <span ng-if="result.PointDifferenceFromYesterday > 0">+{{result.PointDifferenceFromYesterday}}</span>
+                                                <span ng-if="result.PointDifferenceFromYesterday <= 0">{{result.PointDifferenceFromYesterday}}</span>
                                             </td>
-                                            <td style="text-align: right;">{{result.Points}}</td>
+                                            <td style="text-align: right;"><strong>{{result.Points}}</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>
