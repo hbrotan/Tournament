@@ -56,9 +56,10 @@
                                         <tr ng-repeat="result in vm.results | orderBy:['rank','name']">
                                             <td style ="text-align: center;">{{result.Rank}}</td>
                                             <td style="text-align: left;">
-                                                <span ng-if="result.Trend > 0"><i style="color:green;" class="fa fa-arrow-circle-up"></i> +{{result.Trend}}</span>
+                                               <span ng-if="result.Trend < 0"><i style="color:red;"class="fa fa-arrow-circle-down"></i> -{{result.Trend}}</span>
                                                 <span ng-if="result.Trend == 0">-</span>
-                                                <span ng-if="result.Trend < 0"><i style="color:red;"class="fa fa-arrow-circle-down"></i> {{result.Trend}}</span>
+                                                 <span ng-if="result.Trend > 0"><i style="color:green;" class="fa fa-arrow-circle-up"></i> +{{result.Trend*-1}}</span>
+                                                
                                             </td>                                
                                             <td style="text-align: left;">{{result.Name}}</td>
                                             <td style="text-align: right;">
