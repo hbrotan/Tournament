@@ -137,6 +137,7 @@ app.use('/api', router);
 //Serve web
 app.use('/', express.static(__dirname));
 app.use('/:league', express.static(__dirname));
+app.use('/:league/graph', express.static(__dirname + '/public'));
 // START THE SERVER
 // =============================================================================
 app.listen(port);
