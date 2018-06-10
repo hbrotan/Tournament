@@ -13,8 +13,8 @@
             body {background-color: #2c3e50;}
             .logo-left{margin-left:28px;width:150px;background-color: white;padding:20px;border-radius:6%;}
             .logo-right{margin-right:28px;width:150px;background-color: white;padding:20px;border-radius:6%;top:10px;}
-             @media screen and (min-width: 480px) {.logo-left{position:relative;float:left;left:200px;margin-left:-200px;}}
-             @media screen and (min-width: 480px) {.logo-right{position:relative;float:right;right:200px;margin-right:-200px;}}
+             @media screen and (min-width: 480px) {.logo-left{position:relative;float:left;left:200px;margin-left:-200px;margin-top: -3rem;}}
+             @media screen and (min-width: 480px) {.logo-right{position:relative;float:right;right:200px;margin-right:-200px;margin-top:-4rem;}}
         </style>
     </head>
     <body ng-app="app" ng-controller="controller as vm">
@@ -46,9 +46,9 @@
                             </div>
                             <div ng-if="!!vm.tournament && !vm.league">
                                 <div ng-if="!!vm.leagues.length" ng-cloak>
-                                    <ul>Ligaer:<br>
+					<ul><h3>Ligaer:</h3><br>
                                         <li ng-repeat="item in vm.leagues | orderBy:'League'" style="list-style-type:none;">                         
-                                            <h2><a ng-href="http://tournament.azurewebsites.net/{{vm.tournament}}/{{item.League}}">{{item.League}}</a></h2>
+                                            <h5><a ng-href="http://tournament.azurewebsites.net/{{vm.tournament}}/{{item.League}}">{{item.League}}</a></h5>
                                         </li>
                                     </ul>
                                 </div>
