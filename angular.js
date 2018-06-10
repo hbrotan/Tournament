@@ -57,25 +57,21 @@
 
     function dataservice($q, $http) {
         return {
-            getLeaguesForTournament: _.memoize(getLeaguesForTournament),
-            getResultForLeague: _.memoize(getResultForLeague)
+            getLeaguesForTournament: getLeaguesForTournament,
+            getResultForLeague: getResultForLeague
         }
 
         function getLeaguesForTournament(tournament) {
             return $q(function (resolve, reject) {
                 $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league')
-                    .then(function (response) {
-                        resolve(response.data);
-                    });
+                    .then((response) => resolve(response.data));
             });
         }
 
         function getResultForLeague(tournament, league) {
             return $q(function (resolve, reject) {
                 $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league/' + league + '/result')
-                    .then(function (response) {
-                        resolve(response.data);
-                    });
+                    .then((response) => resolve(response.data));
             });
         }
     }
