@@ -23,8 +23,8 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <div class="jumbotron" style="margin-top:5px;text-align:center;background-color:white;">
                     	<a href="http://www.novanet.no"><img src="http://novanet.no/Content/Images/novanet-logo.svg" class="logo-left"></a>
-                    	<a ng-if="vm.tournament === 'EM2016'" href="http://www.novanet.no"><img src="https://upload.wikimedia.org/wikipedia/en/f/f1/UEFA_Euro_2016_Logo.svg" class="logo-right"></a>
-						<a ng-if="vm.tournament === 'VM2018'" href="http://www.novanet.no"><img src="https://en.wikipedia.org/wiki/2018_FIFA_World_Cup#/media/File:2018_FIFA_World_Cup.svg" class="logo-right"></a>
+                    	<a ng-if="vm.tournament === 'EM2016'" href="http://www.novanet.no" ng-cloak><img src="https://upload.wikimedia.org/wikipedia/en/f/f1/UEFA_Euro_2016_Logo.svg" class="logo-right"></a>
+						<a ng-if="vm.tournament === 'VM2018'" href="http://www.novanet.no" ng-cloak><img src="https://en.wikipedia.org/wiki/2018_FIFA_World_Cup#/media/File:2018_FIFA_World_Cup.svg" class="logo-right"></a>
                         <h1 ng-if="!!vm.tournament" ng-cloak>{{vm.tournament}}</h1>
                         <h2>Tippekonkurranse</h2>    
 						<!-- <h3 ng-if="vm.league=='Venner'" ng-cloak>
@@ -40,8 +40,8 @@
                         <div ng-if="!vm.isBusy" ng-cloak>
 							<div ng-if="!vm.tournament">                                
 								<ul><h3>Turneringer:</h3><br>
-									<li style="list-style-type:none;"><h5><a ng-href="http://tournament.azurewebsites.net/{{vm.tournament}}">VM 2018</a></h5></li>
-									<li style="list-style-type:none;"><h5><a ng-href="http://tournament.azurewebsites.net/{{vm.tournament}}">EM 2016</a></h5></li>
+									<li style="list-style-type:none;"><h5><a ng-href="http://tournament.azurewebsites.net/VM2018">VM 2018</a></h5></li>
+									<li style="list-style-type:none;"><h5><a ng-href="http://tournament.azurewebsites.net/EM2018">EM 2016</a></h5></li>
 								</ul>                                
                             </div>
                             <div ng-if="!!vm.tournament && !vm.league">
