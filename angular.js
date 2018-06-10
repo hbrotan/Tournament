@@ -28,10 +28,11 @@
         }
 
         function getDataBasedOnRouteParams() {
-            vm.league = $location.path().split('/')[1];
+			vm.tournament = $location.path().split('/')[1];
+            vm.league = $location.path().split('/')[2];
 
-            if (vm.league) {
-                dataservice.getResultForLeague(vm.league)
+            if (vm.tournament && vm.league) {
+                dataservice.getResultForLeague(vm.tournament, vm.league)
                     .then(function (data) {
                         vm.results = angular.fromJson(data[0].Result);
                         vm.calculated = data[0].CalculatedAt;
@@ -39,8 +40,8 @@
                     .finally(function(){
                         vm.isBusy = false;
                     });
-            } else {
-                dataservice.getLeagues()
+            } else if (vm.league){
+                dataservice.getLeaguesForTournament(vm.tournament)
                     .then(function (data) {
                         vm.leagues = data;
                     })
@@ -48,27 +49,30 @@
                         vm.isBusy = false;
                     });;
             }
+			else {
+				vm.isBusy = false;
+			}
         }
     }
 
     function dataservice($q, $http) {
         return {
-            getLeagues: _.once(getLeagues),
+            getLeaguesForTournament: _.memoize(getLeaguesForTournament),
             getResultForLeague: _.memoize(getResultForLeague)
         }
 
-        function getLeagues(league) {
+        function getLeaguesForTournament(tournament) {
             return $q(function (resolve, reject) {
-                $http.get('http://tournament.azurewebsites.net/api/tournament/EM2016/league')
+                $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league')
                     .then(function (response) {
                         resolve(response.data);
                     });
             });
         }
 
-        function getResultForLeague(league) {
+        function getResultForLeague(tournament, league) {
             return $q(function (resolve, reject) {
-                $http.get('http://tournament.azurewebsites.net/api/tournament/EM2016/league/' + league + '/result')
+                $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league/' + league + '/result')
                     .then(function (response) {
                         resolve(response.data);
                     });
