@@ -40,7 +40,7 @@
                     .finally(function(){
                         vm.isBusy = false;
                     });
-            } else if (vm.league){
+            } else if (vm.tournament){
                 dataservice.getLeaguesForTournament(vm.tournament)
                     .then(function (data) {
                         vm.leagues = data;
