@@ -43,10 +43,10 @@
                         <h3>Turneringer:</h3>
                         <br>
                         <li style="list-style-type:none;">
-                           <h5><a ng-href="http://tournament.azurewebsites.net/VM2018">VM 2018</a></h5>
+                           <h5><a ng-href="{{vm.hostUrl}}#/VM2018">VM 2018</a></h5>
                         </li>
                         <li style="list-style-type:none;">
-                           <h5><a ng-href="http://tournament.azurewebsites.net/EM2016">EM 2016</a></h5>
+                           <h5><a ng-href="{{vm.hostUrl}}#/EM2016">EM 2016</a></h5>
                         </li>
                      </ul>
                   </div>
@@ -56,7 +56,7 @@
                            <h3>Ligaer:</h3>
                            <br>
                            <li ng-repeat="item in vm.leagues | orderBy:'League'" style="list-style-type:none;">
-                              <h5><a ng-href="http://tournament.azurewebsites.net/{{vm.tournament}}/{{item.League}}">{{item.League}}</a></h5>
+                              <h5><a ng-href="{{vm.hostUrl}}#{{vm.tournament}}/{{item.League}}">{{item.League}}</a></h5>
                            </li>
                         </ul>
                      </div>
