@@ -3,16 +3,11 @@
 
     angular
         .module('app', ['ngRoute'])
-        .config(appConfig)
         .controller('controller', controller)
         .factory('dataservice', dataservice);
 
     controller.$inject = ['$rootScope', '$location', 'dataservice'];
     dataservice.$inject = ['$q', '$http'];
-
-    function appConfig($routeProvider, $locationProvider) {
-        $locationProvider.html5Mode(true);
-    }
 
     function controller($rootScope, $location, dataservice) {
         var vm = this;
@@ -28,6 +23,7 @@
         }
 
         function getDataBasedOnRouteParams() {
+            vm.hostUrl = $location.absUrl().split('#')[0];
 			vm.tournament = $location.path().split('/')[1];
             vm.league = $location.path().split('/')[2];
 
