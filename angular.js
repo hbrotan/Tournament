@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -17,37 +17,39 @@
         registerEventHandlers();
 
         function registerEventHandlers() {
-            $rootScope.$on('$locationChangeSuccess', function () {
+            $rootScope.$on('$locationChangeSuccess', function() {
                 getDataBasedOnRouteParams();
             });
         }
 
         function getDataBasedOnRouteParams() {
             vm.hostUrl = $location.absUrl().split('#')[0];
-			vm.tournament = $location.path().split('/')[1];
+            vm.tournament = $location.path().split('/')[1];
             vm.league = $location.path().split('/')[2];
 
             if (vm.tournament && vm.league) {
+                vm.results = null;
+                vm.calculated = null;
                 dataservice.getResultForLeague(vm.tournament, vm.league)
-                    .then(function (data) {
+                    .then(function(data) {
                         vm.results = angular.fromJson(data[0].Result);
                         vm.calculated = data[0].CalculatedAt;
                     })
-                    .finally(function(){
+                    .finally(function() {
                         vm.isBusy = false;
                     });
-            } else if (vm.tournament){
+            } else if (vm.tournament) {
+                vm.leagues = null;
                 dataservice.getLeaguesForTournament(vm.tournament)
-                    .then(function (data) {
+                    .then(function(data) {
                         vm.leagues = data;
                     })
-                    .finally(function(){
+                    .finally(function() {
                         vm.isBusy = false;
                     });;
+            } else {
+                vm.isBusy = false;
             }
-			else {
-				vm.isBusy = false;
-			}
         }
     }
 
@@ -58,14 +60,14 @@
         }
 
         function getLeaguesForTournament(tournament) {
-            return $q(function (resolve, reject) {
+            return $q(function(resolve, reject) {
                 $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league')
                     .then((response) => resolve(response.data));
             });
         }
 
         function getResultForLeague(tournament, league) {
-            return $q(function (resolve, reject) {
+            return $q(function(resolve, reject) {
                 $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league/' + league + '/result')
                     .then((response) => resolve(response.data));
             });
