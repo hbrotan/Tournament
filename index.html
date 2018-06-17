@@ -62,6 +62,9 @@
                      </div>
                   </div>
                   <div ng-if="!!vm.tournament && !!vm.league">
+                      <p ng-if="!!vm.results.length" ng-cloak style="margin-bottom:10px;">
+                        Antall tippere: {{vm.results.length}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sist oppdatert: {{vm.calculated | date:'dd.MMM kl. HH:mm'}}
+                      </p>
                      <table ng-if="!!vm.results.length" class="table table-striped"  ng-cloak>
                         <thead>
                            <tr>
@@ -89,8 +92,7 @@
                            </tr>
                         </tbody>
                      </table>
-                     <br/>
-                     <small ng-if="!!vm.results.length" ng-cloak>Antall tippere: {{vm.results.length}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sist oppdatert: {{vm.calculated | date:'dd.MMM kl. HH:mm'}}</small>
+                     <br/>                    
                   </div>
                   <div ng-if="!!vm.tournament && !!vm.league && !vm.leagues.length && !vm.results.length" ng-cloak>
                      Ingen data for {{vm.league}}
