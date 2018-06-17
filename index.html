@@ -16,6 +16,7 @@
          .logo-right{margin-right:28px;width:150px;background-color: white;padding:20px;border-radius:6%;top:10px;}
          @media screen and (min-width: 480px) {.logo-left{position:relative;float:left;left:200px;margin-left:-200px;margin-top: -3rem;}}
          @media screen and (min-width: 480px) {.logo-right{position:relative;float:right;right:200px;margin-right:-200px;margin-top:-4rem;}}
+         .highest-yesterday{ font-weight: bold; background-color: yellow;}
       </style>
    </head>
    <body ng-app="app" ng-controller="controller as vm">
@@ -85,7 +86,7 @@
                               </td>
                               <td style="text-align: left;">{{result.Name}}</td>
                               <td style="text-align: right;">
-                                 <span ng-if="result.PointDifferenceFromYesterday > 0">+{{result.PointDifferenceFromYesterday}}</span>
+                                 <span ng-if="result.PointDifferenceFromYesterday > 0" ng-class="{ 'highest-yesterday' : result.PointDifferenceFromYesterday === vm.yesterdayHigh }">+{{result.PointDifferenceFromYesterday}}</span>
                                  <span ng-if="result.PointDifferenceFromYesterday <= 0">{{result.PointDifferenceFromYesterday}}</span>
                               </td>
                               <td style="text-align: right;"><strong>{{result.Points}}</strong></td>
