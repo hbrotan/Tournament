@@ -12,6 +12,7 @@
     function controller($rootScope, $location, dataservice) {
         var vm = this;
         vm.isBusy = true;
+        vm.yesterdayHigh = undefined;
 
         getDataBasedOnRouteParams();
         registerEventHandlers();
@@ -34,6 +35,7 @@
                     .then(function(data) {
                         vm.results = angular.fromJson(data[0].Result);
                         vm.calculated = data[0].CalculatedAt;
+                        getBest(vm.results.map(x=>x.PointDifferenceFromYesterday));
                     })
                     .finally(function() {
                         vm.isBusy = false;
@@ -50,6 +52,10 @@
             } else {
                 vm.isBusy = false;
             }
+        }
+        
+        function getBest(pointsForYesterday){
+            pointsForYesterday.reduce((a, b)  => vm.yesterdayHigh = Math.max(a, b));
         }
     }
 
