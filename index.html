@@ -72,6 +72,7 @@
                               <th style="text-align: center;">Plass</th>
                               <th style="text-align: left;">Trend</th>
                               <th style="text-align: left;">Navn</th>
+                              <th ng-if="!!vm.results[0].Winner" style="text-align: left;">Vinner</th>
                               <th style="text-align: right;">Poeng sist runde</th>
                               <th style="text-align: right;">Poeng totalt</th>
                            </tr>
@@ -85,6 +86,7 @@
                                  <span ng-if="result.Trend > 0"><i style="color:red;" class="fa fa-arrow-circle-down"></i> {{result.Trend*-1}}</span>
                               </td>
                               <td style="text-align: left;">{{result.Name}}</td>
+                              <td ng-if="result.Winner" style="text-align: left;">{{result.Winner}}</td>
                               <td style="text-align: right;">
                                  <span ng-if="result.PointDifferenceFromYesterday > 0" ng-class="{ 'highest-yesterday' : result.PointDifferenceFromYesterday === vm.yesterdayHigh }">+{{result.PointDifferenceFromYesterday}}</span>
                                  <span ng-if="result.PointDifferenceFromYesterday <= 0">{{result.PointDifferenceFromYesterday}}</span>
