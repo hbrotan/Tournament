@@ -67,14 +67,14 @@
 
         function getLeaguesForTournament(tournament) {
             return $q(function(resolve, reject) {
-                $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league')
+                $http.get('https://tournament.azurewebsites.net/api/tournament/' + tournament + '/league')
                     .then((response) => resolve(response.data));
             });
         }
 
         function getResultForLeague(tournament, league) {
             return $q(function(resolve, reject) {
-                $http.get('http://tournament.azurewebsites.net/api/tournament/' + tournament + '/league/' + league + '/result')
+                $http.get('https://tournament.azurewebsites.net/api/tournament/' + tournament + '/league/' + league + '/result')
                     .then((response) => resolve(response.data));
             });
         }
