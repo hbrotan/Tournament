@@ -1,115 +1,255 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Fotballtipping</title>
-      <base href="/">
-      <meta charset="iso-8859-1">
-      <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-      <link rel="stylesheet" href="https://bootswatch.com/4/materia/bootstrap.min.css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-      <style>
-         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-         display: none !important;
-         }   
-         body {background-color:white;text-align:center;}
-         .logo-left{margin-left:28px;width:150px;background-color: white;padding:20px;border-radius:6%;}
-         .logo-right{margin-right:28px;width:150px;background-color: white;padding:20px;border-radius:6%;top:10px;}
-         @media screen and (min-width: 480px) {.logo-left{position:relative;float:left;left:200px;margin-left:-200px;margin-top: -3rem;}}
-         @media screen and (min-width: 480px) {.logo-right{position:relative;float:right;right:200px;margin-right:-200px;margin-top:-4rem;}}
-         .highest-yesterday{ font-weight: bold; background-color: yellow;}
-      </style>
-   </head>
-   <body ng-app="app" ng-controller="controller as vm">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12" style="margin-top: 4rem">
-               <div class="row">
-                    <div class="col-md-4 d-none d-md-block">
-                        <a href="https://www.novanet.no"><img src="https://novanet.no/assets/NN_Logo/NN_Logo_Stor_Over_4cm_bredde/RGB/NN_Logo_Stor_RGB.svg" class="logo-left"></a>         
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <h1 ng-if="!!vm.tournament" ng-cloak>{{vm.tournament}}</h1>
-                        <h2>Tippekonkurranse</h2>
-                    </div>
-                    <div class="col-md-4 d-none d-md-block">
-                        <a ng-if="vm.tournament === 'EM2016'" href="https://www.novanet.no" ng-cloak><img src="https://upload.wikimedia.org/wikipedia/en/f/f1/UEFA_Euro_2016_Logo.svg" class="logo-right"></a>
-                        <a ng-if="vm.tournament === 'VM2018'" href="https://www.novanet.no" ng-cloak><img src="https://upload.wikimedia.org/wikipedia/en/6/67/2018_FIFA_World_Cup.svg" class="logo-right"></a>  
-<a ng-if="vm.tournament === 'EM2021'" href="https://www.novanet.no" ng-cloak><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/UEFA_Euro_2020_logo.svg/375px-UEFA_Euro_2020_logo.svg.png" class="logo-right"></a>  						
-                    </div>
-                </div>
-               <br>
-               <div ng-if="vm.isBusy" style="text-align:center;"><i class="fa fa-circle-o-notch fa-pulse fa-3x fa-fw"></i></div>
-               <div ng-if="!vm.isBusy" ng-cloak>
-                  <div ng-if="!vm.tournament">
-                     <ul>
-                        <h3>Turneringer:</h3>
-                        <br>
-						<li style="list-style-type:none;">
-                           <h5><a ng-href="{{vm.hostUrl}}#/EM2021">EM 2021</a></h5>
-                        </li>
-                        <li style="list-style-type:none;">
-                           <h5><a ng-href="{{vm.hostUrl}}#/VM2018">VM 2018</a></h5>
-                        </li>
-                        <li style="list-style-type:none;">
-                           <h5><a ng-href="{{vm.hostUrl}}#/EM2016">EM 2016</a></h5>
-                        </li>
-                     </ul>
-                  </div>
-                  <div ng-if="!!vm.tournament && !vm.league">
-                     <div ng-if="!!vm.leagues.length" ng-cloak>
-                        <ul>
-                           <h3>Ligaer:</h3>
-                           <br>
-                           <li ng-repeat="item in vm.leagues | orderBy:'League'" style="list-style-type:none;">
-                              <h5><a ng-href="{{vm.hostUrl}}#{{vm.tournament}}/{{item.League}}">{{item.League}}</a></h5>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <div ng-if="!!vm.tournament && !!vm.league">
-                      <p ng-if="!!vm.results.length" ng-cloak style="margin-bottom:10px;">
-                        Antall tippere: {{vm.results.length}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sist oppdatert: {{vm.calculated | date:'dd.MMM kl. HH:mm'}}
-                      </p>
-                     <table ng-if="!!vm.results.length" class="table table-striped"  ng-cloak>
-                        <thead>
-                           <tr>
-                              <th style="text-align: center;">Plass</th>
-                              <th style="text-align: left;">Trend</th>
-                              <th style="text-align: left;">Navn</th>
-                              <th ng-if="!!vm.results[0].Winner" style="text-align: left;">Vinner</th>
-                              <th style="text-align: right;">Poeng sist runde</th>
-                              <th style="text-align: right;">Poeng totalt</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr ng-repeat="result in vm.results | orderBy:['rank','name']">
-                              <td style ="text-align: center;">{{result.Rank}}</td>
-                              <td style="text-align: left;">
-                                 <span ng-if="result.Trend < 0"><i style="color:green;"class="fa fa-arrow-circle-up"></i> +{{result.Trend*-1}}</span>
-                                 <span ng-if="result.Trend == 0">-</span>
-                                 <span ng-if="result.Trend > 0"><i style="color:red;" class="fa fa-arrow-circle-down"></i> {{result.Trend*-1}}</span>
-                              </td>
-                              <td style="text-align: left;">{{result.Name}}</td>
-                              <td ng-if="result.Winner" style="text-align: left;">{{result.Winner}}</td>
-                              <td style="text-align: right;">
-                                 <span ng-if="result.PointDifferenceFromYesterday > 0" ng-class="{ 'highest-yesterday' : result.PointDifferenceFromYesterday === vm.yesterdayHigh }">+{{result.PointDifferenceFromYesterday}}</span>
-                                 <span ng-if="result.PointDifferenceFromYesterday <= 0">{{result.PointDifferenceFromYesterday}}</span>
-                              </td>
-                              <td style="text-align: right;"><strong>{{result.Points}}</strong></td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <br/>                    
-                  </div>
-                  <div ng-if="!!vm.tournament && !!vm.league && !vm.leagues.length && !vm.results.length" ng-cloak>
-                     Ingen data for {{vm.league}}
-                  </div>
-               </div>
+  <head>
+    <title>Fotballtipping</title>
+    <base href="/" />
+    <meta charset="iso-8859-1" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/materia/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+    />
+    <style>
+      [ng\:cloak],
+      [ng-cloak],
+      [data-ng-cloak],
+      [x-ng-cloak],
+      .ng-cloak,
+      .x-ng-cloak {
+        display: none !important;
+      }
+      body {
+        background-color: white;
+        text-align: center;
+      }
+      .logo-left {
+        margin-left: 28px;
+        width: 150px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 6%;
+      }
+      .logo-right {
+        margin-right: 28px;
+        width: 150px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 6%;
+        top: 10px;
+      }
+      @media screen and (min-width: 480px) {
+        .logo-left {
+          position: relative;
+          float: left;
+          left: 200px;
+          margin-left: -200px;
+          margin-top: -3rem;
+        }
+      }
+      @media screen and (min-width: 480px) {
+        .logo-right {
+          position: relative;
+          float: right;
+          right: 200px;
+          margin-right: -200px;
+          margin-top: -4rem;
+        }
+      }
+      .highest-yesterday {
+        font-weight: bold;
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body ng-app="app" ng-controller="controller as vm">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12"
+          style="margin-top: 4rem"
+        >
+          <div class="row">
+            <div class="col-md-4 d-none d-md-block">
+              <a href="https://www.novanet.no"
+                ><img
+                  src="https://novanet.no/assets/NN_Logo/NN_Logo_Stor_Over_4cm_bredde/RGB/NN_Logo_Stor_RGB.svg"
+                  class="logo-left"
+              /></a>
             </div>
-         </div>
+            <div class="col-md-4 col-sm-12">
+              <h1 ng-if="!!vm.tournament" ng-cloak>{{vm.tournament}}</h1>
+              <h2>Tippekonkurranse</h2>
+            </div>
+            <div class="col-md-4 d-none d-md-block">
+              <a
+                ng-if="vm.tournament === 'EM2016'"
+                href="https://www.novanet.no"
+                ng-cloak
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/en/f/f1/UEFA_Euro_2016_Logo.svg"
+                  class="logo-right"
+              /></a>
+              <a
+                ng-if="vm.tournament === 'VM2018'"
+                href="https://www.novanet.no"
+                ng-cloak
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/en/6/67/2018_FIFA_World_Cup.svg"
+                  class="logo-right"
+              /></a>
+              <a
+                ng-if="vm.tournament === 'EM2021'"
+                href="https://www.novanet.no"
+                ng-cloak
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/UEFA_Euro_2020_logo.svg/375px-UEFA_Euro_2020_logo.svg.png"
+                  class="logo-right"
+              /></a>
+              <a
+                ng-if="vm.tournament === 'EM2024'"
+                href="https://www.novanet.no"
+                ng-cloak
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/6/6c/UEFA_Euro_2024_logo.svg"
+                  class="logo-right"
+              /></a>
+            </div>
+          </div>
+          <br />
+          <div ng-if="vm.isBusy" style="text-align: center">
+            <i class="fa fa-circle-o-notch fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div ng-if="!vm.isBusy" ng-cloak>
+            <div ng-if="!vm.tournament">
+              <ul>
+                <h3>Turneringer:</h3>
+                <br />
+                <li style="list-style-type: none">
+                  <h5><a ng-href="{{vm.hostUrl}}#/EM2024">EM 2024</a></h5>
+                </li>
+                <li style="list-style-type: none">
+                  <h5><a ng-href="{{vm.hostUrl}}#/EM2021">EM 2021</a></h5>
+                </li>
+                <li style="list-style-type: none">
+                  <h5><a ng-href="{{vm.hostUrl}}#/VM2018">VM 2018</a></h5>
+                </li>
+                <li style="list-style-type: none">
+                  <h5><a ng-href="{{vm.hostUrl}}#/EM2016">EM 2016</a></h5>
+                </li>
+              </ul>
+            </div>
+            <div ng-if="!!vm.tournament && !vm.league">
+              <div ng-if="!!vm.leagues.length" ng-cloak>
+                <ul>
+                  <h3>Ligaer:</h3>
+                  <br />
+                  <li
+                    ng-repeat="item in vm.leagues | orderBy:'League'"
+                    style="list-style-type: none"
+                  >
+                    <h5>
+                      <a
+                        ng-href="{{vm.hostUrl}}#{{vm.tournament}}/{{item.League}}"
+                        >{{item.League}}</a
+                      >
+                    </h5>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div ng-if="!!vm.tournament && !!vm.league">
+              <p
+                ng-if="!!vm.results.length"
+                ng-cloak
+                style="margin-bottom: 10px"
+              >
+                Antall tippere:
+                {{vm.results.length}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sist
+                oppdatert: {{vm.calculated | date:'dd.MMM kl. HH:mm'}}
+              </p>
+              <table
+                ng-if="!!vm.results.length"
+                class="table table-striped"
+                ng-cloak
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: center">Plass</th>
+                    <th style="text-align: left">Trend</th>
+                    <th style="text-align: left">Navn</th>
+                    <th ng-if="!!vm.results[0].Winner" style="text-align: left">
+                      Vinner
+                    </th>
+                    <th style="text-align: right">Poeng sist runde</th>
+                    <th style="text-align: right">Poeng totalt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    ng-repeat="result in vm.results | orderBy:['rank','name']"
+                  >
+                    <td style="text-align: center">{{result.Rank}}</td>
+                    <td style="text-align: left">
+                      <span ng-if="result.Trend < 0"
+                        ><i
+                          style="color: green"
+                          class="fa fa-arrow-circle-up"
+                        ></i>
+                        +{{result.Trend*-1}}</span
+                      >
+                      <span ng-if="result.Trend == 0">-</span>
+                      <span ng-if="result.Trend > 0"
+                        ><i
+                          style="color: red"
+                          class="fa fa-arrow-circle-down"
+                        ></i>
+                        {{result.Trend*-1}}</span
+                      >
+                    </td>
+                    <td style="text-align: left">{{result.Name}}</td>
+                    <td ng-if="result.Winner" style="text-align: left">
+                      {{result.Winner}}
+                    </td>
+                    <td style="text-align: right">
+                      <span
+                        ng-if="result.PointDifferenceFromYesterday > 0"
+                        ng-class="{ 'highest-yesterday' : result.PointDifferenceFromYesterday === vm.yesterdayHigh }"
+                        >+{{result.PointDifferenceFromYesterday}}</span
+                      >
+                      <span ng-if="result.PointDifferenceFromYesterday <= 0"
+                        >{{result.PointDifferenceFromYesterday}}</span
+                      >
+                    </td>
+                    <td style="text-align: right">
+                      <strong>{{result.Points}}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+            </div>
+            <div
+              ng-if="!!vm.tournament && !!vm.league && !vm.leagues.length && !vm.results.length"
+              ng-cloak
+            >
+              Ingen data for {{vm.league}}
+            </div>
+          </div>
+        </div>
       </div>
-   </body>
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>    
-   <script src="https://tournament.azurewebsites.net/angular.js"></script>    
+    </div>
+  </body>
+  <script
+    type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"
+  ></script>
+  <script src="https://tournament.azurewebsites.net/angular.js"></script>
 </html>
