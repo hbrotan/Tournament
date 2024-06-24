@@ -184,6 +184,9 @@
                     <th ng-if="!!vm.results[0].Winner" style="text-align: left">
                       Vinner
                     </th>
+					<th ng-if="vm.results[0].NumberOfCorrectResults >= 0" style="text-align: right">
+                      Fulltreffere
+                    </th>
                     <th style="text-align: right">Poeng sist runde</th>
                     <th style="text-align: right">Poeng totalt</th>
                   </tr>
@@ -213,6 +216,9 @@
                     <td style="text-align: left">{{result.Name}}</td>
                     <td ng-if="result.Winner" style="text-align: left">
                       {{result.Winner}}
+                    </td>
+					<td ng-if="result.NumberOfCorrectResults >= 0" style="text-align: right">
+                      {{result.NumberOfCorrectResults}}
                     </td>
                     <td style="text-align: right">
                       <span
